@@ -11,6 +11,11 @@ import reportRoutes from './modules/reports/reports.routes.js';
 import adminRoutes from './modules/admin/admin.routes.js';
 import { isDbConnected } from './config/db.js';
 import { RULESET_VERSION } from './rules/index.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export function createApp() {
   const app = express();
@@ -48,6 +53,21 @@ export function createApp() {
   app.use('/api/v1/rules', rulesRoutes);
   app.use('/api/v1', reportRoutes);
   app.use('/api/v1/admin', adminRoutes);
+
+  // Path points from server/src/ up to client/dist
+  const clientBuildPath = path.resolve(__dirname, '../../client/dist');
+
+  // Serve Vite static assets
+  app.use(express.static(clientBuildPath));
+
+  // Serve client index.html for non-API web routes (SPA fallback)
+  app.get('*', (req, res, next) => {
+    // Pass API requests to the 404 handler if they don't match any route
+    if (req.originalUrl.startsWith('/api')) {
+      return next();
+    }
+    res.sendFile(path.join(clientBuildPath, 'index.html'));
+  });
 
   // Global 404 handler
   app.use('*', (req, res) => {

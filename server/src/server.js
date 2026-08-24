@@ -12,7 +12,7 @@ async function startServer() {
   const port = env.PORT || 5000;
 
   app.listen(port, () => {
-    console.log(`[MetaCheck Server] Listening on http://localhost:${port}`);
+    console.log(`[MetaCheck Server] Listening on ${port}`);
     console.log(`[MetaCheck Server] Active Rule-Set: ${env.RULESET_VERSION}`);
     console.log(`[MetaCheck Server] AI Provider: ${env.AI_PROVIDER.toUpperCase()}`);
   });
