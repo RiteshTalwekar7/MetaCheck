@@ -25,4 +25,3 @@ export const EXTRACTION_USER_PROMPT = `Examine the uploaded packaged commodity i
 - All raw detected text lines
 
 Remember: If anything cannot be seen with high clarity, return null and visibility NOT_VISIBLE.`;
-

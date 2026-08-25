@@ -63,4 +63,3 @@ export const ExtractionResultSchema = z.object({
   rawText: z.array(z.string()).default([]),
   overallConfidence: z.number().min(0).max(1).nullable().default(null),
 });
-
